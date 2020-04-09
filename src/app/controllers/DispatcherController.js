@@ -33,11 +33,27 @@ class DispatcherController {
   }
 
   async update(req, res) {
-    return res.json({ route: 'match!!!' });
+    const checkDispatcher = await Dispatcher.findByPk(req.params.id);
+
+    if (!checkDispatcher) {
+      return res.status(400).json({ error: 'Dispatcher not found' });
+    }
+
+    const dispatcher = await checkDispatcher.update(req.body);
+
+    return res.json(dispatcher);
   }
 
   async delete(req, res) {
-    return res.json({ route: 'match!!!' });
+    const checkDispatcher = await Dispatcher.findByPk(req.params.id);
+
+    if (!checkDispatcher) {
+      return res.status(400).json({ error: 'Dispatcher not found' });
+    }
+
+    await checkDispatcher.destroy();
+
+    return res.status(200).json([]);
   }
 }
 
