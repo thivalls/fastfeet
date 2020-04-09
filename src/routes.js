@@ -5,7 +5,9 @@ import SessionController from './app/controllers/SessionController';
 // import UserController from './app/controllers/UserController';
 import RecipientController from './app/controllers/RecipientController';
 import DispatcherController from './app/controllers/DispatcherController';
+import OrderController from './app/controllers/OrderController';
 import FileController from './app/controllers/FileController';
+import SignatureController from './app/controllers/SignatureController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -30,6 +32,15 @@ routes.post('/dispatchers', DispatcherController.store);
 routes.put('/dispatchers/:id', DispatcherController.update);
 routes.delete('/dispatchers/:id', DispatcherController.delete);
 
+routes.get('/orders', OrderController.index);
+routes.post('/orders', OrderController.store);
+
+// UPLOADS
 routes.post('/files/:id', upload.single('file'), FileController.store);
+routes.post(
+  '/signatures/:order',
+  upload.single('signature'),
+  SignatureController.store
+);
 
 export default routes;
