@@ -8,7 +8,7 @@ import DispatcherController from './app/controllers/DispatcherController';
 import OrderController from './app/controllers/OrderController';
 import FileController from './app/controllers/FileController';
 import SignatureController from './app/controllers/SignatureController';
-import DispatcherClientController from './app/controllers/DispatcherClientController';
+import DeliveryController from './app/controllers/DeliveryController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -20,11 +20,8 @@ const routes = new Router();
 
 routes.post('/sessions', SessionController.store);
 // routes.post('/users', UserController.store);
-routes.get('/dispatchers/:id/deliveries/open', DispatcherClientController.open);
-routes.get(
-  '/dispatchers/:id/deliveries/closed',
-  DispatcherClientController.closed
-);
+
+routes.get('/dispatchers/:id/deliveries', DeliveryController.index);
 
 routes.use(authMiddleware);
 
