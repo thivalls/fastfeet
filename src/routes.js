@@ -8,6 +8,7 @@ import DispatcherController from './app/controllers/DispatcherController';
 import OrderController from './app/controllers/OrderController';
 import FileController from './app/controllers/FileController';
 import SignatureController from './app/controllers/SignatureController';
+import DispatcherClientController from './app/controllers/DispatcherClientController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -19,6 +20,11 @@ const routes = new Router();
 
 routes.post('/sessions', SessionController.store);
 // routes.post('/users', UserController.store);
+routes.get('/dispatchers/:id/deliveries/open', DispatcherClientController.open);
+routes.get(
+  '/dispatchers/:id/deliveries/closed',
+  DispatcherClientController.closed
+);
 
 routes.use(authMiddleware);
 
@@ -34,6 +40,8 @@ routes.delete('/dispatchers/:id', DispatcherController.delete);
 
 routes.get('/orders', OrderController.index);
 routes.post('/orders', OrderController.store);
+routes.put('/orders/:id', OrderController.update);
+routes.delete('/orders/:id', OrderController.delete);
 
 // UPLOADS
 routes.post('/files/:id', upload.single('file'), FileController.store);

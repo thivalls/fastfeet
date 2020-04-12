@@ -20,6 +20,7 @@ class OrderController {
       subject: 'Nova entrega',
       template: 'new-order',
       context: {
+        order: order.id,
         dispatcher: dispatcher.name,
         recipient: recipient.name,
         address: recipient.address,
@@ -27,6 +28,57 @@ class OrderController {
       },
     });
     return res.json(order);
+  }
+
+  async update(req, res) {
+    const order = await Order.findByPk(req.params.id);
+
+    if (!order) {
+      return res.status(400).json({ error: 'order not found' })
+    }
+
+    await order.update(req.body);
+    const dispatcher = await Dispatcher.findByPk(order.dispatcher_id);
+    const recipient = await Recipient.findByPk(order.recipient_id);
+
+    await Mail.sendMail({
+      to: `${dispatcher.name} <${dispatcher.email}>`,
+      subject: 'Entrega atualizada',
+      template: 'updated-order',
+      context: {
+        order: order.id,
+        dispatcher: dispatcher.name,
+        recipient: recipient.name,
+        address: recipient.address,
+        product: order.product,
+      },
+    });
+    return res.json(order);
+  }
+
+  async delete(req, res) {
+        const order = await Order.findByPk(req.params.id);
+
+    if (!order) {
+      return res.status(400).json({ error: 'order not found' })
+    }
+    const { dispatcher_id, recipient_id, id: orderId } = order;
+
+    await order.destroy();
+
+    const dispatcher = await Dispatcher.findByPk(dispatcher_id);
+    const recipient = await Recipient.findByPk(recipient_id);
+
+    await Mail.sendMail({
+      to: `${dispatcher.name} <${dispatcher.email}>`,
+      subject: 'Entrega cancelada',
+      template: 'deleted-order',
+      context: {
+        order: orderId,
+        dispatcher: dispatcher.name,
+      },
+    });
+    return res.status(200).json();
   }
 }
 
