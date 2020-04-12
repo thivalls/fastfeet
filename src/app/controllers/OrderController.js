@@ -34,7 +34,7 @@ class OrderController {
     const order = await Order.findByPk(req.params.id);
 
     if (!order) {
-      return res.status(400).json({ error: 'order not found' })
+      return res.status(400).json({ error: 'order not found' });
     }
 
     await order.update(req.body);
@@ -57,17 +57,16 @@ class OrderController {
   }
 
   async delete(req, res) {
-        const order = await Order.findByPk(req.params.id);
+    const order = await Order.findByPk(req.params.id);
 
     if (!order) {
-      return res.status(400).json({ error: 'order not found' })
+      return res.status(400).json({ error: 'order not found' });
     }
-    const { dispatcher_id, recipient_id, id: orderId } = order;
+    const { dispatcher_id, id: orderId } = order;
 
     await order.destroy();
 
     const dispatcher = await Dispatcher.findByPk(dispatcher_id);
-    const recipient = await Recipient.findByPk(recipient_id);
 
     await Mail.sendMail({
       to: `${dispatcher.name} <${dispatcher.email}>`,

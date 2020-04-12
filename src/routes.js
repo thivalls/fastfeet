@@ -9,6 +9,7 @@ import OrderController from './app/controllers/OrderController';
 import FileController from './app/controllers/FileController';
 import SignatureController from './app/controllers/SignatureController';
 import DeliveryController from './app/controllers/DeliveryController';
+import ProblemController from './app/controllers/ProblemController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -22,8 +23,15 @@ routes.post('/sessions', SessionController.store);
 // routes.post('/users', UserController.store);
 
 routes.get('/dispatchers/:id/deliveries', DeliveryController.index);
+routes.put('/dispatchers/:id/deliveries/:order', DeliveryController.update);
+
+routes.post('/orders/:id/problems', ProblemController.store);
 
 routes.use(authMiddleware);
+
+routes.get('/orders/problems', ProblemController.index);
+routes.get('/orders/:id/problems', ProblemController.show);
+routes.delete('/orders/:id/problems', ProblemController.show);
 
 // routes.get('/users', UserController.index);
 

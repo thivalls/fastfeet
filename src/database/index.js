@@ -8,8 +8,9 @@ import Dispatcher from '../app/models/Dispatcher';
 import File from '../app/models/File';
 import Signature from '../app/models/Signature';
 import Order from '../app/models/Order';
+import Problem from '../app/models/Problem';
 
-const models = [User, Order, Recipient, Dispatcher, Signature, File];
+const models = [User, Order, Problem, Recipient, Dispatcher, Signature, File];
 
 class Database {
   constructor() {
