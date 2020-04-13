@@ -10,6 +10,7 @@ import FileController from './app/controllers/FileController';
 import SignatureController from './app/controllers/SignatureController';
 import DeliveryController from './app/controllers/DeliveryController';
 import ProblemController from './app/controllers/ProblemController';
+import CancelOrderProblemController from './app/controllers/CancelOrderProblemController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -29,8 +30,12 @@ routes.post('/orders/:id/problems', ProblemController.store);
 
 routes.use(authMiddleware);
 
+routes.delete('/problem/:id/cancel-order', CancelOrderProblemController.delete);
+
 routes.get('/orders/problems', ProblemController.index);
 routes.get('/orders/:id/problems', ProblemController.show);
+routes.delete('/orders/problems/:id', ProblemController.delete);
+
 routes.delete('/orders/:id/problems', ProblemController.show);
 
 // routes.get('/users', UserController.index);

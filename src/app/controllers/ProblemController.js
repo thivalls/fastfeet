@@ -4,6 +4,9 @@ import Order from '../models/Order';
 class ProblemController {
   async index(req, res) {
     const orders = await Order.findAll({
+      where: {
+        canceled_at: null,
+      },
       include: {
         association: 'problems',
         attributes: ['id', 'description'],
@@ -44,6 +47,18 @@ class ProblemController {
     });
 
     return res.json(order);
+  }
+
+  async delete(req, res) {
+    const problem = await Problem.findByPk(req.params.id);
+
+    if (!problem) {
+      return res.status(400).json({ error: 'Order not found' });
+    }
+
+    await problem.destroy();
+
+    return res.status(200).json();
   }
 }
 

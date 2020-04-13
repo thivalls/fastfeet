@@ -6,7 +6,11 @@ import Mail from '../../lib/Mail';
 
 class OrderController {
   async index(req, res) {
-    const orders = await Order.findAll();
+    const orders = await Order.findAll({
+      where: {
+        canceled_at: null,
+      },
+    });
     return res.json(orders);
   }
 

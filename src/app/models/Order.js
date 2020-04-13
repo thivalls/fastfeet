@@ -31,6 +31,11 @@ class Order extends Model {
       as: 'signature',
     });
 
+    this.belongsTo(models.Problem, {
+      foreignKey: 'problem_id',
+      as: 'problem',
+    });
+
     this.hasMany(models.Problem, {
       foreignKey: 'order_id',
       as: 'problems',
